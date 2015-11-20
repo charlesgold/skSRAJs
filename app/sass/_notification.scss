@@ -1,0 +1,65 @@
+$maxMobile: 610px;
+// 
+// basic responsive mixin
+//
+@mixin media($size) {
+  @media only screen and (max-device-width: $size){
+  	@content;
+  }
+}
+@mixin mediaMobile($maxSize) {
+  @media only screen and (min-width: 0px) and (max-width: $maxSize){
+	@content;
+  }
+}
+.skSRA-curtain {
+  position: absolute;
+  top: 0;
+  right: 0;
+  //bottom: 0;
+  left: 0;
+  background: rgba(0,0,0, 0.7);
+  z-index: 10001;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  display: none;
+  overflow:hidden;	
+  overflow-y: scroll;
+  pointer-events: none;
+
+}
+.skSRA-notify {
+	padding:10px;
+	border-radius: 5px;
+	background: #000;
+	color: #FFF;
+	display: none;
+	position: absolute;
+	margin: 50px auto 30px auto;
+	width:100%;
+	max-width: 610px;
+	max-height: 300px;
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index:10002;
+	box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+	@include mediaMobile($maxMobile) {
+		max-width: 350px;
+		margin-top: 30px;
+	}
+
+}
+.skSRA-notify-message {
+	padding:10px 20px;
+	margin-bottom: 10px;
+	color: #FFF;
+	text-align: left;
+	font-size: 1.5em;
+}
+.skSRA-notify-controls {
+	padding:5px auto;
+	width: 50%;
+}

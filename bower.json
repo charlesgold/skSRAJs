@@ -1,0 +1,21 @@
+{
+  "name": "sk-shippingrules-app",
+  "version": "1.0.0",
+  "authors": [
+    "ctopjian <charlietopjian@gmail.com>"
+  ],
+  "main": "skShippingRulesApp.js",
+  "license": "MIT",
+  "homepage": "shippingrulesapp.shopifyking.com",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "taffy": "*",
+    "jquery": "~2.1.4"
+  }
+}

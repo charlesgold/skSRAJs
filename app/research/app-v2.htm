@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>skShippingRulesApp</title>
+	<!-- <script src="skShippingRulesApp.js"></script> -->
+</head>
+<body>
+<h1>App</h1>
+
+
+<script>
+//<![CDATA[
+    (function() {
+      function asyncLoad() {        
+        var urls = ["loader.js"];
+        for (var i = 0; i < urls.length; i++) {
+          var s = document.createElement('script');
+          s.type = 'text/javascript';
+          s.async = true;
+          s.src = urls[i];
+          var x = document.getElementsByTagName('script')[0];
+          x.parentNode.insertBefore(s, x);
+        }
+      }
+      window.attachEvent ? window.attachEvent('onload', asyncLoad) : window.addEventListener('load', asyncLoad, false);
+    })();
+
+//]]>
+</script>
+</body>
+</html>

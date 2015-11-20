@@ -1,0 +1,12 @@
+.notification-button {
+	background: #0c416d;
+	border:0;
+	color: #FFF;
+	font-size: 1.5em;
+	padding: 10px 15px;
+	cursor: pointer;
+	//border-radius: 5px;
+	&:hover {
+		background: #b6c6d3;
+	}
+}
