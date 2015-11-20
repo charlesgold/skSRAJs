@@ -37,6 +37,7 @@ var skShippingRulesApp = {
 
 		this.curtainClass		=	'skSRA-curtain';
 		this.notificationClass	=	'skSRA-notify';
+		this.notificationBtnClass = 'notification-button';
 		//kill checkout btn
 		this.disableCheckoutBtn(this.settings.chkOutClass);
 		//start watch
@@ -55,31 +56,34 @@ var skShippingRulesApp = {
 	    notificationCurtainDiv.className  = 'skSRA-curtain';
 	    document.body.appendChild(notificationCurtainDiv);
 	    this.notificationCurtainDiv = document.getElementsByClassName('skSRA-curtain')[0];
-	    this.notificationCurtainDiv.tabIndex = -1;
+	    //this.notificationCurtainDiv.tabIndex = -1;
 	    //notification
 	    var notificationDiv = document.createElement('div');
 	    notificationDiv.id = 'skSRA-main';
 	    notificationDiv.className = 'skSRA-notify';
-	    document.body.appendChild(notificationDiv);
+	    //document.body.appendChild(notificationDiv);
+	    this.notificationCurtainDiv.appendChild(notificationDiv);
 	    this.notificationDiv = document.getElementById('skSRA-main');
 	    this.notificationDiv.style.display = "none";
 	    //setup message div
 	    var notificationMessageDiv = document.createElement('div');
 	    notificationMessageDiv.id = 'skSRA-notify-message-id';
 	    notificationMessageDiv.className = 'skSRA-notify-message';
-	    this.notificationMessageDiv.appendChild(notificationMessageDiv);
+	    this.notificationDiv.appendChild(notificationMessageDiv);
+	    this.notificationMessageDiv = document.getElementById('skSRA-notify-message-id');
 	    //setup message controls div
 	    var notificationControlsDiv = document.createElement('div');
 	    notificationControlsDiv.id = 'skSRA-notify-controls-id';
 	    notificationControlsDiv.className = 'skSRA-notify-controls';
-	    this.notificationControlsDiv.appendChild(notificationControlsDiv);	
-	        
-	}
-	,createCloseBtn: function(){
+	    this.notificationDiv.appendChild(notificationControlsDiv);	
+	    this.notificationControlsDiv = document.getElementById('skSRA-notify-controls-id');
 	    //create close button
-	    this.notificationClose	=	document.createElement('button');
-	    this.notificationClose.className =	'notification-button';
-	    this.notificationClose.id 		=	'skSRA-okButton';
+	    var notificationCloseBtn	=	document.createElement('BUTTON');
+	    notificationCloseBtn.className =	'notification-button';
+	    notificationCloseBtn.id 		=	'skSRA-okButton';
+	    this.notificationControlsDiv.appendChild(notificationCloseBtn);
+	    this.notificationCloseBtn = document.getElementById('skSRA-okButton');    
+	    this.notificationCloseBtn.innerHTML = this.settings.okButtonTxt;   
 	}
 	,runApp: function() {
 		var _this = this;
@@ -109,11 +113,16 @@ var skShippingRulesApp = {
           });
           //handle close notification
           $('.'+_this.curtainClass).on('click',function(){
-				_this.settings.hideNotify();
-          });                  
+				_this.hideNotify();
+          });
+          //close btn
+          $('.'+_this.notificationBtnClass).on('click',function(){
+				_this.hideNotify();
+          });                             
       });		
 	},
 	searchDb: function(searchData) {
+		this.focusSearch = searchData;
 		var result = this.settings.db.indexOf(searchData);
 		if(result != -1){
 			return true; //found
@@ -125,8 +134,11 @@ var skShippingRulesApp = {
 		//* @param data field object
 		if(!this.searchDb(data)){
 			//show checkout, continue checkout
+			this.hideNotify();
+			this.enableCheckoutBtn(this.settings.chkOutClass);
 		} else {
 			//sorry can't checkout msg
+			this.disableCheckoutBtn(this.settings.chkOutClass);
 			this.displayNotify(this.settings.message);
 		}
 	},
@@ -157,15 +169,20 @@ var skShippingRulesApp = {
 		var m = document.createElement('P');
 		var t = document.createTextNode(message);
 
-		this.notificationDiv.innerHTML = '';
+		this.notificationMessageDiv.innerHTML = '';
 
 		this.notificationCurtainDiv.style.display = "block";
-		this.notificationMessageDiv.innerHTML = message;
+		var nM = this.generateMessage(message);
+		this.notificationMessageDiv.innerHTML = nM;
 		this.notificationDiv.style.display = "block";
 	}
 	,hideNotify: function(){
 		this.notificationCurtainDiv.style.display = "none";
 		this.notificationDiv.style.display = "none";
+	}
+	,generateMessage: function(message){
+		var message = message.replace('{ zip }', this.focusSearch);
+		return message;
 	}
     ,applyDefaultStyling: function() {
         var myNav = navigator.userAgent.toLowerCase();
@@ -189,13 +206,13 @@ skShippingRulesApp.settings.zipField 	= '.skSRA-zipField';
 skShippingRulesApp.settings.zipBtn 		= '.skSRA-zipBtn';
 skShippingRulesApp.settings.chkOutClass = 'check_out';
 skShippingRulesApp.settings.okButtonTxt = 'Close';
-skShippingRulesApp.settings.message		= 'We do not ship to { zip } currently.<br/>{ okButton }';
+skShippingRulesApp.settings.message		= 'Sorry! We do not ship to { zip }. We are unable to place your Order.';
 skShippingRulesApp.settings.db 			= [
 											'76227'
 											,'90210'
 											,'92660'
 ];
-skShippingRulesApp.settings.themeCss	= '.skSRA-curtain{position:absolute;top:0;right:0;left:0;background:rgba(0,0,0,0.7);z-index:10001;pointer-events:none;width:100%;height:100%;display:none;overflow:hidden;overflow-y:scroll;pointer-events:none}.skSRA-notify{padding:10px;border-radius:5px;background:#000;color:#FFF;display:none;position:absolute;margin:50px auto 30px auto;width:100%;max-width:610px;max-height:300px;top:0;bottom:0;left:0;right:0;z-index:10002;box-shadow:0 5px 15px rgba(0,0,0,0.5)}@media only screen and (min-width: 0px) and (max-width: 610px){.skSRA-notify{max-width:350px;margin-top:30px}}.skSRA-notify-message{padding:10px 20px;margin-bottom:10px;color:#FFF;text-align:left;font-size:1.5em}.skSRA-notify-controls{padding:5px auto;width:50%}.notification-button{background:#0c416d;border:0;color:#FFF;font-size:1.5em;padding:10px 15px;cursor:pointer}.notification-button:hover{background:#b6c6d3}';
+skShippingRulesApp.settings.themeCss	= '.skSRA-curtain{position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(0,0,0,0.7);z-index:10001;cursor:pointer;display:none;margin:0;padding:0}.skSRA-notify{position:absolute;padding:10px;border-radius:5px;background:#000;color:#FFF;display:none;min-width:250px;min-height:200px;max-width:610px;max-height:200px;top:50%;left:50%;transform:translate(-50%, -50%);box-shadow:0 5px 15px rgba(0,0,0,0.5);overflow:hidden}@media only screen and (min-width: 0px) and (max-width: 610px){.skSRA-notify{max-width:350px;margin-top:30px}}.skSRA-notify-message{padding:50px 20px 10px 20px;margin-bottom:15px;color:#FFF;text-align:left;font-size:1.2em;text-align:center;word-wrap:break-word}.skSRA-notify-controls{margin:auto}.notification-button{background:#0c416d;border:0;color:#FFF;font-size:1.5em;padding:10px 15px;cursor:pointer;margin:0 auto;width:100px;display:block}.notification-button:hover{background:#b6c6d3}.skSRA-form-field{display:block;width:100%;height:43px;padding:10px 15px;font-size:15px;line-height:1.42857143;color:#464545;background-color:#fff;background-image:none;border:1px solid #EFAA05;border-radius:0;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,0.075);box-shadow:inset 0 1px 1px rgba(0,0,0,0.075);-webkit-transition:border-color ease-in-out .15s, box-shadow ease-in-out .15s;-o-transition:border-color ease-in-out .15s, box-shadow ease-in-out .15s;transition:border-color ease-in-out .15s, box-shadow ease-in-out .15s}';
 skShippingRulesApp.initiate();
 //Tests
 console.log(skShippingRulesApp.searchDb('96227'));
