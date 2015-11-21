@@ -1,0 +1,60 @@
+#skShippingRulesApp-scope {
+
+
+	background:#b1b1b1;
+	width:100%;
+	margin-top: 5px;
+	
+	.skSRA-scope-wrap {
+		padding: 10px 20px;
+		max-width:600px;
+		margin: 0 auto;
+		@include media($tablet){
+			max-width: 500px;
+		}
+		@include mediaMobile($maxMobile){
+			max-width: 250px;
+		}
+		@include media($mobile){
+			max-width: 250px;
+		}		
+	}
+
+	//zip code field
+	.skSRA-zipField {
+		display: block;
+
+	    border: 1px solid #efac07;
+	    color: #000;
+	    font-family: "nimbus-sans-condensed";
+	    //font-weight: 900;
+	    font-size: 31px;
+	    height: 46px;
+	    line-height: 34px;
+	    margin: 36px auto;
+	    padding: 0;
+	    text-align: center;
+	    width: 100%;
+	    max-width:140px;		
+	    @include mediaMobile($maxMobile){
+
+	    }
+	}
+
+	.skSRA-title {
+	    font-family: "nimbus-sans-condensed","Open Sans Condensed", sans-serif;
+	    font-weight: 700;
+		font-size: 22px;		
+		color: #000;
+		padding: 20px 5px 5px 5px;
+		text-align: center;
+	}
+	.skSRA-blurb {
+	    font-family: "nimbus-sans-condensed","Open Sans Condensed", sans-serif;
+		font-size: 14px;		
+		color: #303030;
+		padding: 5px;
+		text-align: center;
+	}
+
+}

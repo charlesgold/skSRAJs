@@ -13,3 +13,14 @@
 		background: #b6c6d3;
 	}
 }
+
+.disabled-checkout {
+	background: #CCC;
+	border: 0;
+	color: #FFF;
+}
+.hide-checkout {
+   position: absolute !important;
+   top: -9999px !important;
+   left: -9999px !important;
+}

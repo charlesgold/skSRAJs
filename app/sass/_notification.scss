@@ -1,17 +1,4 @@
-$maxMobile: 610px;
-// 
-// basic responsive mixin
-//
-@mixin media($size) {
-  @media only screen and (max-device-width: $size){
-  	@content;
-  }
-}
-@mixin mediaMobile($maxSize) {
-  @media only screen and (min-width: 0px) and (max-width: $maxSize){
-	@content;
-  }
-}
+
 .skSRA-curtain {
   position: fixed;
   top: 0;
@@ -25,6 +12,9 @@ $maxMobile: 610px;
   display: none;
   margin: 0;
   padding: 0;
+  @include mediaMobile($maxMobile){
+  	overflow: hidden;
+  }
   
 }
 .skSRA-notify {
